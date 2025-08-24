@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Comercios</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+  .card-hover:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+  }
+  .filter-panel {
+    max-width: 250px;
+  }
+</style>
+</head>
+<body>
+<div class="container my-4">
+  <div class="row">
+    <!-- Panel de filtros -->
+    <div class="col-md-3 filter-panel">
+      <h5>Categorías</h5>
+      <div class="form-check">
+        <input class="form-check-input filtro" type="checkbox" value="Cabañas" id="cabanas">
+        <label class="form-check-label" for="cabanas">Cabañas</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input filtro" type="checkbox" value="Comercios" id="comercios">
+        <label class="form-check-label" for="comercios">Comercios</label>
+      </div>
+      <!-- Más filtros -->
+    </div>
+
+    <!-- Área de tarjetas -->
+    <div class="col-md-9">
+      <div class="row g-3" id="cardsContainer">
+        <!-- Aquí se generarán las tarjetas -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Funciones de ayuda
+function avatarIniciales(nombre) {
+  const iniciales = nombre.split(" ").map(n => n[0].toUpperCase()).join("");
+  return `<div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width:40px; height:40px;">${iniciales}</div>`;
+}
+
+function waLink(numero) {
+  return numero ? `https://wa.me/${numero.replace(/\D/g,'')}` : "#";
+}
+
+// Función que genera la tarjeta
+function comercioCard({nombre, direccion, whatsapp, rubro}){
+  return `
+    <div class="col-12 col-md-6">
+      <div class="card card-hover h-100 p-3">
+        <div class="d-flex align-items-center gap-3">
+          ${avatarIniciales(nombre)}
+          <div class="flex-grow-1">
+            <h5 class="mb-0 fw-bold text-primary">${nombre}</h5>
+            <div class="small text-muted">${rubro||"Sin rubro"}</div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <div class="d-flex align-items-start">
+            <i class="bi bi-geo-alt-fill text-danger me-2 mt-1"></i>
+            <div class="small">${direccion||"—"}</div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <a class="btn btn-outline-success w-100 fw-semibold rounded-pill" target="_blank" href="${waLink(whatsapp)}">
+            <i class="bi bi-whatsapp me-1"></i> WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>`;
+}
+
+// Datos de ejemplo
+const comercios = [
+  {nombre: "Cabañas Arcadia", direccion: "Ruta 40", whatsapp: "5491123456789", rubro: "Cabañas"},
+  {nombre: "Valkiria Indumentaria", direccion: "Calle Falsa 123", whatsapp: "5491123456790", rubro: "Comercios"},
+  {nombre: "Amaranta", direccion: "Av. Siempre Viva", whatsapp: "", rubro: "Comercios"},
+  {nombre: "Cabañas Navira", direccion: "Camino Real", whatsapp: "5491123456791", rubro: "Cabañas"},
+];
+
+// Renderizar tarjetas
+function renderCards(filter=[]) {
+  const container = document.getElementById("cardsContainer");
+  container.innerHTML = "";
+  const filtrados = filter.length ? comercios.filter(c => filter.includes(c.rubro)) : comercios;
+  filtrados.forEach(c => container.innerHTML += comercioCard(c));
+}
+
+renderCards();
+
+// Filtrado
+document.querySelectorAll(".filtro").forEach(chk => {
+  chk.addEventListener("change", () => {
+    const filtros = Array.from(document.querySelectorAll(".filtro:checked")).map(c => c.value);
+    renderCards(filtros);
+  });
+});
+</script>
+
+</body>
+</html>
