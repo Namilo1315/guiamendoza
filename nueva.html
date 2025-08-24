@@ -127,16 +127,387 @@
   </button>
 </div>
 
-<!-- ====================== DESTACADOS ====================== -->
+
+
+<!-- ====================== DESTACADOS CARRUSEL1 FIJO 3 CARDS ====================== -->
 <section class="container mt-5">
   <div class="text-center mb-4">
-    <h2 class="fw-bold text-primary"><i class="bi bi-star-fill text-warning me-2"></i> Comercios Destacados</h2>
+    <h2 class="fw-bold text-primary">
+      <i class="bi bi-star-fill text-warning me-2"></i> Comercios Destacados
+    </h2>
     <p class="text-muted mb-0">Algunos de nuestros favoritos de la semana</p>
+    
   </div>
-  <div class="row g-3" id="featuredContainer">
-    <!-- Cards con IMG (hardcode de ejemplo profesional) -->
+
+  <div class="carrusel1-container overflow-hidden position-relative">
+    <div class="carrusel1-track d-flex" id="featuredContainer">
+      <!-- Cards se cargan con JS -->
+    </div>
+    <button class="carrusel1-btn prev btn btn-light position-absolute top-50 start-0 translate-middle-y">&#10094;</button>
+    <button class="carrusel1-btn next btn btn-light position-absolute top-50 end-0 translate-middle-y">&#10095;</button>
   </div>
 </section>
+
+<style>
+  .carrusel1-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .carrusel1-track {
+    display: flex;
+    gap: 20px; /* más espacio entre tarjetas */
+    transition: transform 0.5s linear;
+  }
+  
+  .carrusel1-card {
+    flex: 0 0 33.3333%; /* siempre 3 visibles */
+    padding: 0 10px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .carrusel1-card:hover,
+  .carrusel1-card:active {
+    transform: scale(1.15); /* agranda más para que se note */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3); /* sombra más marcada */
+    z-index: 10; /* para que no quede debajo de otra card */
+  }
+  
+  .carrusel1-card img {
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .carrusel1-card:hover img,
+  .carrusel1-card:active img {
+    transform: scale(1.5); /* zoom visible de la imagen */
+  }
+  </style>
+  
+
+<script>
+  const FEATURED = [
+  {
+    nombre: "Panadería Aroma",
+    descripcion: "Panes y facturas frescas",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Panadería",
+    whatsapp: "2611122334",
+    direccion: "Calle Falsa 123, Maipú"
+  },
+ 
+  {
+    nombre: "Café y Té Boutique",
+    descripcion: "Bebidas calientes y pastelería",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Café",
+    whatsapp: "2613344556",
+    direccion: "Boulevard Central 78, Maipú"
+  },
+  {
+    nombre: "Ferretería La Tuerca",
+    descripcion: "Todo para tu hogar",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Ferretería",
+    whatsapp: "2612233445",
+    direccion: "Avenida Principal 456, Maipú"
+  },
+  {
+    nombre: "Librería Los Sueños",
+    descripcion: "Libros, papelería y más",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Librería",
+    whatsapp: "2614455667",
+    direccion: "Calle Cultura 22, Maipú"
+  },
+  {
+    nombre: "Heladería Dulce Frío",
+    descripcion: "Helados artesanales y postres",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Heladería",
+    whatsapp: "2615566778",
+    direccion: "Avenida del Sol 11, Maipú"
+  },
+  {
+    nombre: "Panadería La Espiga",
+    descripcion: "Delicias recién horneadas",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Panadería",
+    whatsapp: "2616677889",
+    direccion: "Calle Trigo 34, Maipú"
+  },
+  {
+    nombre: "Frutería Natural",
+    descripcion: "Frutas frescas y jugos",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Frutería",
+    whatsapp: "2617788990",
+    direccion: "Mercado Central 56, Maipú"
+  },
+  {
+    nombre: "Mascotas Happy Pet",
+    descripcion: "Alimentos y accesorios",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Mascotas",
+    whatsapp: "2618899001",
+    direccion: "Calle Animal 90, Maipú"
+  },
+  {
+    nombre: "Panadería Aroma",
+    descripcion: "Panes y facturas frescas",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Panadería",
+    whatsapp: "2611122334",
+    direccion: "Calle Falsa 123, Maipú"
+  },
+ 
+  {
+    nombre: "Café y Té Boutique",
+    descripcion: "Bebidas calientes y pastelería",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Café",
+    whatsapp: "2613344556",
+    direccion: "Boulevard Central 78, Maipú"
+  },
+  {
+    nombre: "Ferretería La Tuerca",
+    descripcion: "Todo para tu hogar",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Ferretería",
+    whatsapp: "2612233445",
+    direccion: "Avenida Principal 456, Maipú"
+  },
+  {
+    nombre: "Librería Los Sueños",
+    descripcion: "Libros, papelería y más",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Librería",
+    whatsapp: "2614455667",
+    direccion: "Calle Cultura 22, Maipú"
+  },
+  {
+    nombre: "Heladería Dulce Frío",
+    descripcion: "Helados artesanales y postres",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Heladería",
+    whatsapp: "2615566778",
+    direccion: "Avenida del Sol 11, Maipú"
+  },
+  {
+    nombre: "Panadería La Espiga",
+    descripcion: "Delicias recién horneadas",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Panadería",
+    whatsapp: "2616677889",
+    direccion: "Calle Trigo 34, Maipú"
+  },
+  {
+    nombre: "Frutería Natural",
+    descripcion: "Frutas frescas y jugos",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Frutería",
+    whatsapp: "2617788990",
+    direccion: "Mercado Central 56, Maipú"
+  },
+  {
+    nombre: "Mascotas Happy Pet",
+    descripcion: "Alimentos y accesorios",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Mascotas",
+    whatsapp: "2618899001",
+    direccion: "Calle Animal 90, Maipú"
+  },
+  {
+    nombre: "Panadería Aroma",
+    descripcion: "Panes y facturas frescas",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Panadería",
+    whatsapp: "2611122334",
+    direccion: "Calle Falsa 123, Maipú"
+  },
+ 
+  {
+    nombre: "Café y Té Boutique",
+    descripcion: "Bebidas calientes y pastelería",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Café",
+    whatsapp: "2613344556",
+    direccion: "Boulevard Central 78, Maipú"
+  },
+  {
+    nombre: "Ferretería La Tuerca",
+    descripcion: "Todo para tu hogar",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Ferretería",
+    whatsapp: "2612233445",
+    direccion: "Avenida Principal 456, Maipú"
+  },
+  {
+    nombre: "Librería Los Sueños",
+    descripcion: "Libros, papelería y más",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Librería",
+    whatsapp: "2614455667",
+    direccion: "Calle Cultura 22, Maipú"
+  },
+  {
+    nombre: "Heladería Dulce Frío",
+    descripcion: "Helados artesanales y postres",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Heladería",
+    whatsapp: "2615566778",
+    direccion: "Avenida del Sol 11, Maipú"
+  },
+  {
+    nombre: "Panadería La Espiga",
+    descripcion: "Delicias recién horneadas",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Panadería",
+    whatsapp: "2616677889",
+    direccion: "Calle Trigo 34, Maipú"
+  },
+  {
+    nombre: "Frutería Natural",
+    descripcion: "Frutas frescas y jugos",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Frutería",
+    whatsapp: "2617788990",
+    direccion: "Mercado Central 56, Maipú"
+  },
+  {
+    nombre: "Mascotas Happy Pet",
+    descripcion: "Alimentos y accesorios",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Mascotas",
+    whatsapp: "2618899001",
+    direccion: "Calle Animal 90, Maipú"
+  }, {
+    nombre: "Panadería Aroma",
+    descripcion: "Panes y facturas frescas",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Panadería",
+    whatsapp: "2611122334",
+    direccion: "Calle Falsa 123, Maipú"
+  },
+ 
+  {
+    nombre: "Café y Té Boutique",
+    descripcion: "Bebidas calientes y pastelería",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Café",
+    whatsapp: "2613344556",
+    direccion: "Boulevard Central 78, Maipú"
+  },
+  {
+    nombre: "Ferretería La Tuerca",
+    descripcion: "Todo para tu hogar",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Ferretería",
+    whatsapp: "2612233445",
+    direccion: "Avenida Principal 456, Maipú"
+  },
+  {
+    nombre: "Librería Los Sueños",
+    descripcion: "Libros, papelería y más",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Librería",
+    whatsapp: "2614455667",
+    direccion: "Calle Cultura 22, Maipú"
+  },
+  {
+    nombre: "Heladería Dulce Frío",
+    descripcion: "Helados artesanales y postres",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Heladería",
+    whatsapp: "2615566778",
+    direccion: "Avenida del Sol 11, Maipú"
+  },
+  {
+    nombre: "Panadería La Espiga",
+    descripcion: "Delicias recién horneadas",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Panadería",
+    whatsapp: "2616677889",
+    direccion: "Calle Trigo 34, Maipú"
+  },
+  {
+    nombre: "Frutería Natural",
+    descripcion: "Frutas frescas y jugos",
+    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    rubro: "Frutería",
+    whatsapp: "2617788990",
+    direccion: "Mercado Central 56, Maipú"
+  },
+  {
+    nombre: "Mascotas Happy Pet",
+    descripcion: "Alimentos y accesorios",
+    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    rubro: "Mascotas",
+    whatsapp: "2618899001",
+    direccion: "Calle Animal 90, Maipú"
+  }
+];
+
+
+const featuredContainer = document.getElementById("featuredContainer");
+
+// Función para crear card
+function destacadoCard({nombre, descripcion, img, whatsapp, direccion}) {
+  return `
+    <div class="carrusel1-card">
+      <div class="card card-hover h-100">
+        <img src="${img}" class="card-img-top" alt="${nombre}">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fw-bold text-primary">${nombre}</h5>
+          <p class="card-text text-muted small">${descripcion||""}</p>
+          <div class="mt-auto">
+            <div class="d-flex align-items-start mb-3">
+              <i class="bi bi-geo-alt-fill text-danger me-2 mt-1"></i>
+              <div class="small">${direccion||"—"}</div>
+            </div>
+            <a href="https://wa.me/54${(whatsapp||"").replace(/\D/g,"")}" target="_blank" class="btn btn-success w-100 rounded-pill">
+              <i class="bi bi-whatsapp me-1"></i> Contactar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Render + duplicado para loop infinito
+function renderFeatured(){
+  featuredContainer.innerHTML = FEATURED.map(destacadoCard).join("");
+  FEATURED.forEach(f => featuredContainer.innerHTML += destacadoCard(f));
+}
+renderFeatured();
+
+let index = 0;
+const totalCards = FEATURED.length;
+
+// Función para mover carrusel (3 visibles)
+function moveCarousel(step = 1){
+  index += step;
+  if(index >= totalCards) index = 0;
+  if(index < 0) index = totalCards - 1;
+  featuredContainer.style.transform = `translateX(-${index * 33.3333}%)`;
+}
+
+// Botones
+document.querySelector(".carrusel1-btn.prev").addEventListener("click", ()=> moveCarousel(-1));
+document.querySelector(".carrusel1-btn.next").addEventListener("click", ()=> moveCarousel(1));
+
+// Loop automático
+setInterval(()=> moveCarousel(1), 3000);
+</script>
+
+
 
 <!-- ====================== TODOS LOS COMERCIOS ====================== -->
 <section class="container mt-5">
@@ -146,7 +517,6 @@
   </div>
   <div class="row g-3" id="comerciosContainer"></div>
 </section>
-
 <!-- ====================== MODAL REGISTRO ====================== -->
 <div class="modal fade" id="modalRegistro" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -261,9 +631,8 @@
     </div>
   </div>
 </div>
-
 <!-- ====================== SECCIÓN BENEFICIOS DESTACADO ====================== -->
-<section class="container mt-5 py-5">
+<section class="container mt-5 py-5 ">
   <div class="text-center mb-4">
     <h2 class="fw-bold text-primary">
       <i class="bi bi-megaphone-fill me-2"></i> ¡Hacé crecer tu comercio!
@@ -368,37 +737,10 @@
 
   /* ---------------- Utilidades UI ---------------- */
   const comerciosContainer = document.getElementById("comerciosContainer");
-  const featuredContainer = document.getElementById("featuredContainer");
+
   const formRegistro = document.getElementById("formRegistro");
   const searchInput = document.getElementById("searchInput");
   const filterBtns = document.querySelectorAll(".filter-btn");
-
-  const FEATURED = [
-    {
-      nombre: "Panadería Sol",
-      descripcion: "Panes y facturas artesanales",
-      img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop",
-      rubro: "Panadería",
-      whatsapp: "2611234567",
-      direccion: "Calle 123, Maipú"
-    },
-    {
-      nombre: "Ferretería El Tornillo",
-      descripcion: "Herramientas y hogar",
-      img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop",
-      rubro: "Ferretería",
-      whatsapp: "2614455666",
-      direccion: "Colón 101, Maipú"
-    },
-    {
-      nombre: "Ferretería El Tornillo",
-      descripcion: "Herramientas y hogar",
-      img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop",
-      rubro: "Ferretería",
-      whatsapp: "2614455666",
-      direccion: "Colón 101, Maipú"
-    }
-  ];
 
   function avatarIniciales(nombre="C"){
     const ini = nombre.trim().split(/\s+/).slice(0,2).map(w=>w[0]?.toUpperCase()||"").join("");
