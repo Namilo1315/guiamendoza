@@ -54,7 +54,7 @@
     .filter-btn.active,.filter-btn:hover{background:#0d6efd;color:#ffffff}
     .search-wrap{background:#fff;border-radius:16px}
     /* ==== CARRUSEL HERO ==== */
-    .carousel-item img{height:300px;object-fit:cover;border-radius:16px}
+    .carousel-item img{height:350px;object-fit:cover;border-radius:16px}
 
     /* ==== CARRUSEL DESTACADOS ==== */
     .carrusel1-container {
@@ -155,6 +155,7 @@
     height: 44px;
     font-size: 14px;
   }
+  .carousel-item img{height:170px;object-fit:cover;border-radius:16px}
 }
 
 
@@ -234,7 +235,7 @@
 <div id="heroCarousel" class="carousel slide my-4 container" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active"><img class="d-block w-100" alt="Promo 1"
-      src="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?q=80&w=1600&auto=format&fit=crop"></div>
+      src="baner.png"></div>
     <div class="carousel-item"><img class="d-block w-100" alt="Promo 2"
       src="https://images.unsplash.com/photo-1527169402691-feff5539e52c?q=80&w=1600&auto=format&fit=crop"></div>
     <div class="carousel-item"><img class="d-block w-100" alt="Promo 3"
@@ -327,6 +328,10 @@
       </form>
     </div>
   </div>
+</div>
+<!-- Contenedor de toasts -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 100;">
+  <div id="toastContainer"></div>
 </div>
 
 <!-- ====================== MODAL CATÁLOGO DÍA DE LA MADRE ====================== -->
@@ -571,60 +576,81 @@
     <div class="text-center text-secondary small">© 2025 Comercios Maipú — Todos los derechos reservados</div>
   </div>
 </footer>
+<!-- Modal eliminar comercio -->
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="modalEliminarLabel">Eliminar Comercio</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que querés eliminar este comercio?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger rounded-pill" id="btnConfirmEliminar">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contenedor para alertas -->
+<div id="alertContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 1055;"></div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <!-- FIREBASE -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyC6xVk-lhu3Tl0MysJHvmVA3wTZslLFeWY",
-  authDomain: "gestion-postulantes.firebaseapp.com",
-  projectId: "gestion-postulantes",
-  storageBucket: "gestion-postulantes.firebasestorage.app",
-  messagingSenderId: "316005992021",
-  appId: "1:316005992021:web:ba86c12b2ab189ac09b6dc"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
- /* ---------------- Utilidades UI ---------------- */
- const comerciosContainer = document.getElementById("comerciosContainer");
-
-const formRegistro = document.getElementById("formRegistro");
-const searchInput = document.getElementById("searchInput");
-const filterBtns = document.querySelectorAll(".filter-btn");
-
-  function waLink(num){ // Opcional: ajustá prefijo país si necesitás distinto
-    const limpio = (num||"").replace(/\D/g,"");
-    return `https://wa.me/54${limpio}`;
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, onSnapshot, query, orderBy, serverTimestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyC6xVk-lhu3Tl0MysJHvmVA3wTZslLFeWY",
+    authDomain: "gestion-postulantes.firebaseapp.com",
+    projectId: "gestion-postulantes",
+    storageBucket: "gestion-postulantes.firebasestorage.app",
+    messagingSenderId: "316005992021",
+    appId: "1:316005992021:web:ba86c12b2ab189ac09b6dc"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  
+  /* ---------------- Utilidades UI ---------------- */
+  const comerciosContainer = document.getElementById("comerciosContainer");
+  const formRegistro = document.getElementById("formRegistro");
+  const searchInput = document.getElementById("searchInput");
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  
+  // Función para generar avatar
+  function avatarIniciales(nombre="C"){ 
+    return `<div class="avatar flex-shrink-0">${nombre.trim().split(/\s+/).slice(0,2).map(w=>w[0]?.toUpperCase()||"").join("") || "C"}</div>`; 
   }
-
-function avatarIniciales(nombre="C"){ return `<div class="avatar flex-shrink-0">${nombre.trim().split(/\s+/).slice(0,2).map(w=>w[0]?.toUpperCase()||"").join("") || "C"}</div>`; }
-// Seleccionamos todos los botones de filtro
-const filterButtons = document.querySelectorAll('.filter-btn');
-
-// Título o sección de "Todos los Comercios"
-const todosComerciosTitle = document.querySelector('#comercios1'); // o cualquier id que tengas en el título
-
-filterButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    // Scroll suave hacia la sección/título
-    todosComerciosTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  
+  // Scroll suave al hacer click en filtro
+  const todosComerciosTitle = document.querySelector('#comercios1');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      todosComerciosTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   });
-});
+  
+  // ==== COMERCIO CARD con botón eliminar ====
+  function comercioCard({id, nombre,direccion,whatsapp,rubro}){
+    const iniciales = (nombre||"")
+      .trim()
+      .split(" ")
+      .map(p => p[0]?.toUpperCase())
+      .slice(0,2)
+      .join("");
+  
+      return `<div class="col-comercio" id="comercio-${id}">
+  <div class="card card-hover h-100 p-3 position-relative">
+    <!-- Cruz más pequeña -->
+    <button class="btn-close position-absolute top-0 end-0 m-2" 
+            style="width:0px; height:1px;" 
+            onclick="eliminarComercio('${id}')"></button>
 
-function comercioCard({nombre,direccion,whatsapp,rubro}){
-  const iniciales = (nombre||"")
-    .trim()
-    .split(" ")
-    .map(p => p[0]?.toUpperCase())
-    .slice(0,2)
-    .join("");
-
-  return `<div class="col-comercio"><div class="card card-hover h-100 p-3">
     <div class="d-flex align-items-center gap-3">
       <div style="
         width:45px;
@@ -633,7 +659,7 @@ function comercioCard({nombre,direccion,whatsapp,rubro}){
         background-color:#0d6efd;
         color:#fff;
         font-weight:bold;
-        font-size:18px;
+        font-size:px;
         display:flex;
         align-items:center;
         justify-content:center;
@@ -645,91 +671,101 @@ function comercioCard({nombre,direccion,whatsapp,rubro}){
         <small class="text-muted">${rubro||"Sin rubro"}</small>
       </div>
     </div>
+
     <div class="mt-2 small d-flex align-items-start">
       <i class="bi bi-geo-alt-fill text-danger me-2"></i>${direccion||"—"}
     </div>
+
     <div class="mt-3">
       <a class="btn btn-outline-success w-100 rounded-pill fw-bold" target="_blank" href="https://wa.me/54${(whatsapp||"").replace(/\D/g,"")}">
         <i class="bi bi-whatsapp me-1"></i> WhatsApp
       </a>
     </div>
-  </div></div>`;
-}
+  </div>
+</div>`;
 
-
-// ==== DESTACADOS ====
-const FEATURED = [
-  { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
-  { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
-  { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
-  { nombre: "Verdulería El Sol", descripcion: "Frutas y verduras frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Verdulería", whatsapp: "2617788990", direccion: "Av. San Martín 222, Maipú" },
-  { nombre: "Indumentaria Style", descripcion: "Moda urbana y casual", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Indumentaria", whatsapp: "2616677889", direccion: "Calle Moda 456, Maipú" },
+  }
   
-  { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
-  { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
-  { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
-  { nombre: "Verdulería El Sol", descripcion: "Frutas y verduras frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Verdulería", whatsapp: "2617788990", direccion: "Av. San Martín 222, Maipú" },
-  { nombre: "Indumentaria Style", descripcion: "Moda urbana y casual", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Indumentaria", whatsapp: "2616677889", direccion: "Calle Moda 456, Maipú" },
-  { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
-  { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
-  { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
-  { nombre: "Verdulería El Sol", descripcion: "Frutas y verduras frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Verdulería", whatsapp: "2617788990", direccion: "Av. San Martín 222, Maipú" },
-  { nombre: "Indumentaria Style", descripcion: "Moda urbana y casual", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Indumentaria", whatsapp: "2616677889", direccion: "Calle Moda 456, Maipú" }
-];
-
-const featuredContainer = document.getElementById("featuredContainer");
-function destacadoCard({nombre, descripcion, img, whatsapp, direccion}) {
-  return `<div class="carrusel1-card"><div class="card card-hover h-100">
-    <img src="${img}" class="card-img-top" alt="${nombre}">
-    <div class="card-body d-flex flex-column">
-      <h6 class="fw-bold text-primary">${nombre}</h6>
-      <p class="text-muted small">${descripcion||""}</p>
-      <div class="mt-auto small d-flex align-items-start mb-2"><i class="bi bi-geo-alt-fill text-danger me-2"></i>${direccion||"—"}</div>
-      <a href="https://wa.me/54${(whatsapp||"").replace(/\D/g,"")}" target="_blank" class="btn btn-success w-100 rounded-pill"><i class="bi bi-whatsapp me-1"></i> Contactar</a>
-    </div>
-  </div></div>`;
-}
-featuredContainer.innerHTML = FEATURED.map(destacadoCard).join("");
-let index = 0;
-function moveCarousel(step){
-  const total = FEATURED.length;
-  index = (index + step + total) % total;
-  featuredContainer.style.transform = `translateX(-${index*20}%)`;
-}
-document.querySelector(".carrusel1-btn.prev").addEventListener("click", ()=> moveCarousel(-1));
-document.querySelector(".carrusel1-btn.next").addEventListener("click", ()=> moveCarousel(1));
-setInterval(()=> moveCarousel(1), 4000);
-
-// Animaciones on scroll
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("visible"); });
-},{threshold:.2});
-document.querySelectorAll("[data-animate]").forEach(el=>observer.observe(el));
-
-function renderFeatured(){
+  // ==== DESTACADOS ====
+  const FEATURED = [
+    { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
+    { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
+    { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
+    { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },{ nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },{ nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },{ nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },{ nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },{ nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" }
+  ];
+  
+  const featuredContainer = document.getElementById("featuredContainer");
+  function destacadoCard({nombre, descripcion, img, whatsapp, direccion}) {
+    return `<div class="carrusel1-card"><div class="card card-hover h-100">
+      <img src="${img}" class="card-img-top" alt="${nombre}">
+      <div class="card-body d-flex flex-column">
+        <h6 class="fw-bold text-primary">${nombre}</h6>
+        <p class="text-muted small">${descripcion||""}</p>
+        <div class="mt-auto small d-flex align-items-start mb-2"><i class="bi bi-geo-alt-fill text-danger me-2"></i>${direccion||"—"}</div>
+        <a href="https://wa.me/54${(whatsapp||"").replace(/\D/g,"")}" target="_blank" class="btn btn-success w-100 rounded-pill"><i class="bi bi-whatsapp me-1"></i> Contactar</a>
+      </div>
+    </div></div>`;
+  }
+  featuredContainer.innerHTML = FEATURED.map(destacadoCard).join("");
+  
+  let index = 0;
+  function moveCarousel(step){
+    const total = FEATURED.length;
+    index = (index + step + total) % total;
+    featuredContainer.style.transform = `translateX(-${index*20}%)`;
+  }
+  document.querySelector(".carrusel1-btn.prev").addEventListener("click", ()=> moveCarousel(-1));
+  document.querySelector(".carrusel1-btn.next").addEventListener("click", ()=> moveCarousel(1));
+  setInterval(()=> moveCarousel(1), 4000);
+  
+  // Animaciones on scroll
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("visible"); });
+  },{threshold:.2});
+  document.querySelectorAll("[data-animate]").forEach(el=>observer.observe(el));
+  
+  function renderFeatured(){
     featuredContainer.innerHTML = FEATURED.map(destacadoCard).join("");
   }
-
-  // Estado/Cache para filtros y búsqueda
+  
+  /* ---------------- Estado/Cache para filtros y búsqueda ---------------- */
   let todosComercios = [];
-
+  
   function aplicarRender(){
     const term = (searchInput.value||"").toLowerCase().trim();
     const rubroActivo = document.querySelector(".filter-btn.active")?.dataset?.rubro || "todos";
-
+  
     const filtrados = todosComercios.filter(c=>{
       const coincideTexto = [c.nombre, c.direccion, c.rubro].filter(Boolean)
         .some(v=>String(v).toLowerCase().includes(term));
       const coincideRubro = rubroActivo==="todos" ? true : (c.rubro===rubroActivo);
       return coincideTexto && coincideRubro;
     });
-
+  
     comerciosContainer.innerHTML = filtrados.map(comercioCard).join("") || `
       <div class="col-12">
         <div class="alert alert-light border text-center">No hay comercios para mostrar con esos filtros.</div>
       </div>`;
   }
-
+  
   // Filtros Rubro
   filterBtns.forEach(btn=>{
     btn.addEventListener("click", ()=>{
@@ -738,43 +774,72 @@ function renderFeatured(){
       aplicarRender();
     });
   });
-
+  
   // Búsqueda
-  searchInput.addEventListener("input", ()=>{
-    aplicarRender();
-  });
+  searchInput.addEventListener("input", ()=> aplicarRender());
 
-  // Validación del form (Bootstrap)
-  (() => {
-    formRegistro.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      if (!formRegistro.checkValidity()) {
-        formRegistro.classList.add('was-validated');
-        return;
-      }
-      // Guardar en Firestore
-      const nombre = document.getElementById("regNombre").value.trim();
-      const direccion = document.getElementById("regDireccion").value.trim();
-      const rubro = document.getElementById("regRubro").value;
-      const whatsapp = document.getElementById("regWhatsapp").value.trim();
+  
+  
+  /* ---------------- Formulario registro ---------------- */
 
-      try{
-        await addDoc(collection(db,"comercios"),{
-          nombre, direccion, rubro, whatsapp,
-          createdAt: serverTimestamp()
-        });
-        formRegistro.reset();
-        formRegistro.classList.remove('was-validated');
-        bootstrap.Modal.getInstance(document.getElementById("modalRegistro")).hide();
-      }catch(e){
-        alert("Ocurrió un error al guardar. Intentá nuevamente.");
-        console.error(e);
-      }
-    }, false);
-  })();
+  function mostrarToast(mensaje, tipo="success", duracion=3000){
+  const container = document.getElementById("toastContainer");
+  const toastEl = document.createElement("div");
+  toastEl.className = `toast align-items-center text-bg-${tipo} border-0`;
+  toastEl.setAttribute("role", "alert");
+  toastEl.setAttribute("aria-live", "assertive");
+  toastEl.setAttribute("aria-atomic", "true");
 
-  // Suscripción en tiempo real
+  toastEl.innerHTML = `
+    <div class="d-flex">
+      <div class="toast-body">${mensaje}</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+    </div>
+  `;
+
+  container.appendChild(toastEl);
+
+  const toast = new bootstrap.Toast(toastEl, { delay: duracion });
+  toast.show();
+
+  // Quitar del DOM cuando se cierre
+  toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
+}
+
+formRegistro.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  if (!formRegistro.checkValidity()) {
+    formRegistro.classList.add('was-validated');
+    return;
+  }
+
+  const nombre = document.getElementById("regNombre").value.trim();
+  const direccion = document.getElementById("regDireccion").value.trim();
+  const rubro = document.getElementById("regRubro").value;
+  const whatsapp = document.getElementById("regWhatsapp").value.trim();
+
+  try {
+    await addDoc(collection(db,"comercios"), {
+      nombre, direccion, rubro, whatsapp,
+      createdAt: serverTimestamp()
+    });
+
+    formRegistro.reset();
+    formRegistro.classList.remove('was-validated');
+    bootstrap.Modal.getInstance(document.getElementById("modalRegistro")).hide();
+
+    // Mostrar toast de éxito
+    mostrarToast(`Comercio "${nombre}" registrado!!`, "success");
+
+  } catch(e) {
+    mostrarToast("Ocurrió un error al guardar. Intentá nuevamente.", "danger");
+    console.error(e);
+  }
+});
+
+
+  /* ---------------- Suscripción en tiempo real ---------------- */
   function suscribirComercios(){
     const q = query(collection(db,"comercios"), orderBy("createdAt","desc"));
     onSnapshot(q, (snap)=>{
@@ -782,8 +847,31 @@ function renderFeatured(){
       aplicarRender();
     });
   }
+  
+  /* ---------------- Función eliminar comercio ---------------- */
+  let comercioAEliminar = null;
 
-  // Semilla de 2 comercios demo si la colección está vacía
+window.eliminarComercio = function(id){
+  comercioAEliminar = id;
+  const modal = new bootstrap.Modal(document.getElementById('modalEliminar'));
+  modal.show();
+};
+
+document.getElementById('btnConfirmEliminar').addEventListener('click', async ()=>{
+  if(!comercioAEliminar) return;
+  try{
+    await deleteDoc(doc(db,"comercios",comercioAEliminar));
+    const elem = document.getElementById(`comercio-${comercioAEliminar}`);
+    if(elem) elem.remove();
+    comercioAEliminar = null;
+    bootstrap.Modal.getInstance(document.getElementById('modalEliminar')).hide();
+  }catch(e){
+    alert("Error al eliminar el comercio.");
+    console.error(e);
+  }
+});
+
+  /* ---------------- Semilla inicial ---------------- */
   async function seedSiVacio(){
     const snap = await getDocs(collection(db,"comercios"));
     if(snap.empty){
@@ -803,17 +891,13 @@ function renderFeatured(){
       });
     }
   }
-
-  // Inicializar
+  
+  /* ---------------- Inicializar ---------------- */
   renderFeatured();
   await seedSiVacio();
   suscribirComercios();
-</script>
-
-</body>
-</html>
-
-</script>
+  </script>
+  
 </body>
 </html>
 
