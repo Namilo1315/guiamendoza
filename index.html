@@ -13,66 +13,187 @@
   <style>
     :root{
       --primary:#007bff;
-      --accent:#00a5fe;
-      --soft:#f6f8fb;
+      --accent: #007bff;
+      --soft:#ffffff;
       --text:#1f2a37;
     }
-    html, body {
-  font-size: 14px; /* o 15px si querés un poco más grande */
-}
+   
 
-    body{background:var(--soft);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    body{
+      background:var(--soft);
+      color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial
+    }
+
+    /* ==== TARJETAS ==== */
     .shadow-smooth{box-shadow:0 10px 25px rgba(0,0,0,.08)}
     .card{border:0;border-radius:18px}
-    .card-hover{transition:transform .18s ease,box-shadow .18s ease}
-    .card-hover:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.10)}
+    .card-hover{transition:transform .25s ease,box-shadow .25s ease}
+    .card-hover:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
+
     .avatar{
-      width:56px;height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;
-      font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;letter-spacing:.5px
+      width:56px;height:56px;border-radius:999px;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));
+      color:#fff;letter-spacing:.5px
     }
+
+    /* ==== HERO ==== */
     .hero{
       background: radial-gradient(1200px 400px at 10% -20%, #67c1ff44, transparent 60%),
                   radial-gradient(1000px 500px at 110% 10%, #00a5fe22, transparent 60%),
                   linear-gradient(90deg, #4facfe, #00a5fe);
       color:#fff
-      
     }
     .hero .badge{background:rgba(255,255,255,.18);backdrop-filter: blur(6px)}
+
+    /* ==== FILTROS ==== */
     .filter-btn{
       border-radius:999px;border:2px solid #0d6efd;background:transparent;color:#0d6efd;font-weight:700
     }
     .filter-btn.active,.filter-btn:hover{background:#0d6efd;color:#ffffff}
-    .btn-rubro{
-      border-radius:999px;border:2px solid var(--primary);background:#fff;color:var(--primary);font-weight:700;
-      padding:.5rem 1rem
-    }
-    .btn-rubro.active,.btn-rubro:hover{background:var(--primary);color:#fff}
     .search-wrap{background:#fff;border-radius:16px}
+    /* ==== CARRUSEL HERO ==== */
     .carousel-item img{height:300px;object-fit:cover;border-radius:16px}
+
+    /* ==== CARRUSEL DESTACADOS ==== */
+    .carrusel1-container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+    }
+    .carrusel1-track {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.6s ease;
+    }
+    .carrusel1-card {
+      flex: 0 0 20%; /* 5 visibles */
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .carrusel1-card:hover {
+      transform: scale(1.08);
+      box-shadow: 0 18px 35px rgba(0,0,0,0.25);
+      z-index: 10;
+    }
+    .carrusel1-btn {
+      border-radius: 50%;
+      width: 45px; height: 45px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.2);
+      transition: background .2s;
+    }
+    .carrusel1-btn:hover { background: var(--primary); color: #fff; }
+
+    /* ==== TITULOS ==== */
+    .section-title {
+      position: relative;
+      display: inline-block;
+      font-weight: 800;
+    }
+    .section-title::after {
+      content:"";
+      display:block;
+      width:60px;
+      height:4px;
+      background:var(--accent);
+      margin:8px auto 0;
+      border-radius:4px;
+    }
+
+    /* ==== WHATSAPP FLOTANTE ==== */
     .whatsapp-fab{
       position:fixed;right:18px;bottom:18px;width:56px;height:56px;border-radius:999px;background:#25d366;color:#fff;
-      display:flex;align-items:center;justify-content:center;font-size:26px;z-index:1055;box-shadow:0 10px 20px rgba(0,0,0,.2)
+      display:flex;align-items:center;justify-content:center;font-size:26px;z-index:1055;
+      box-shadow:0 10px 20px rgba(0,0,0,.2);
+      transition: transform .25s ease;
     }
+    .whatsapp-fab:hover{transform:scale(1.1)}
+
+    /* ==== FOOTER ==== */
     .footer{background:#0b1324;color:#cbd5e1}
-    @media (max-width: 1200px) {
-  html, body {
-    font-size: 13px;
+    
+    /* ==== ANIMACIONES ==== */
+    [data-animate]{opacity:0;transform:translateY(40px);transition:all .8s ease;}
+    [data-animate].visible{opacity:1;transform:none;}
+
+    /* ==== TODOS LOS COMERCIOS ==== */
+    #comerciosContainer .col-comercio { flex: 0 0 20%; padding:10px; }
+    @media (max-width:1200px){ #comerciosContainer .col-comercio{flex:0 0 25%;} }
+    @media (max-width:992px){ #comerciosContainer .col-comercio{flex:0 0 33.33%;} }
+    @media (max-width:768px){ #comerciosContainer .col-comercio{flex:0 0 50%;} }
+    @media (max-width:576px){ #comerciosContainer .col-comercio{flex:0 0 100%;} }
+
+    @media (max-width: 1200px) { html, body { font-size: 13px; } }
+    html, body { font-size: 13px; }
+    /* ==== AJUSTES RESPONSIVE PARA CELULAR ==== */
+
+/* Botones dentro de las cards */
+@media (max-width: 576px) {
+  .card .btn {
+    font-size: 0.85rem;     /* texto más chico */
+    padding: 6px 12px;      /* menos alto */
+    border-radius: 12px;    /* suavizar esquinas */
   }
 }
+
+/* Cards más compactas en móvil */
+@media (max-width: 576px) {
+  .card {
+    border-radius: 14px;
+    padding: 12px !important;   /* achicar relleno interno */
+  }
+}
+
+/* Avatar más chico en pantallas pequeñas */
+@media (max-width: 576px) {
+  .avatar {
+    width: 44px;
+    height: 44px;
+    font-size: 14px;
+  }
+}
+
+
+/* Responsive */
+@media (max-width: 992px) { .carrusel1-card { flex: 0 0 25%; } }  /* 4 visibles */
+@media (max-width: 768px) { .carrusel1-card { flex: 0 0 33.33%; } } /* 3 visibles */
+@media (max-width: 576px) { .carrusel1-card { flex: 0 0 80%; } }    /* 2 visibles */
+
+/* Imagen dentro de la card */
+.carrusel1-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* Opcional: que el contenido dentro de la card se ajuste */
+.carrusel1-card .card-content {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
   </style>
 </head>
 <body>
 
-<!-- ====================== HERO / HEADER ====================== -->
+<!-- ====================== HERO ====================== -->
 <header class="hero py-5 position-relative overflow-hidden shadow-sm">
   <div class="container">
     <div class="row align-items-center gy-4">
-      <div class="col-lg-7">
-        <span class="badge rounded-pill px-3 py-2 mb-3">Guía local</span>
+      <div class="col-lg-7" data-animate>
+        <span class="badge rounded-pill px-3 py-2 mb-3">Guía Local</span>
         <h1 class="display-5 fw-bold mb-3">
-          <i class="bi bi-shop-window me-2"></i> Encontrá y sumá tu comercio
+          <i class="bi bi-shop-window me-2"></i> Descubrí y Registrá tu Comercio
         </h1>
-        <p class="lead mb-4">Explorá comercios por rubro, hablá por WhatsApp en un toque y registrá el tuyo <br> para aparecer en la guía.</p>
+        <p class="lead mb-4">Explorá comercios por rubro, hablá por WhatsApp en un toque y sumá tu negocio a la guía.</p>
         <div class="d-flex flex-wrap gap-2">
           <button class="btn btn-light btn-lg rounded-pill fw-bold px-4" data-bs-toggle="modal" data-bs-target="#modalRegistro">
             <i class="bi bi-shop me-2"></i> Registrar mi comercio
@@ -81,33 +202,33 @@
             <i class="bi bi-gift me-2"></i> Catálogo Día de la Madre
           </button>
         </div>
-      </div>
-      <div class="col-lg-5 text-center">
+      </div> <div class="col-lg-5 text-center">
         <div class="search-wrap p-3 shadow-smooth">
           <div class="input-group">
             <span class="input-group-text bg-white border-0"><i class="bi bi-search text-primary"></i></span>
             <input id="searchInput" class="form-control border-0" placeholder="Buscar por nombre, dirección o rubro...">
           </div>
           <div class="mt-3 d-flex flex-wrap gap-2 justify-content-center">
-            <button class="filter-btn btn px-3 py-2 active" data-rubro="todos">Todos</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Peluquería">Peluquería</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Kiosco">Kiosco</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Ferretería">Ferretería</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Panadería">Panadería</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Verdulería">Verdulería</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Carnicería">Carnicería</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Supermercado">Supermercado</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Indumentaria">Indumentaria</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Librería">Librería</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Farmacia">Farmacia</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Restaurante">Restaurante</button>
-            <button class="filter-btn btn px-3 py-2" data-rubro="Mascotas">Mascotas</button>
-          </div>
+  <button class="filter-btn btn px-3 py-2 active" data-rubro="todos">Todos</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Peluquería">Peluquería</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Kiosco">Kiosco</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Ferretería">Ferretería</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Panadería">Panadería</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Verdulería">Verdulería</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Carnicería">Carnicería</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Supermercado">Supermercado</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Indumentaria">Indumentaria</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Librería">Librería</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Farmacia">Farmacia</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Restaurante">Restaurante</button>
+  <button class="filter-btn btn px-3 py-2" data-rubro="Mascotas">Mascotas</button>
+</div>
         </div>
       </div>
     </div>
   </div>
 </header>
+
 
 <!-- ====================== CARRUSEL PROMOS ====================== -->
 <div id="heroCarousel" class="carousel slide my-4 container" data-bs-ride="carousel">
@@ -126,397 +247,36 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Siguiente</span>
   </button>
 </div>
-
-
-
-<!-- ====================== DESTACADOS CARRUSEL1 FIJO 3 CARDS ====================== -->
+<!-- ====================== DESTACADOS ====================== -->
 <section class="container mt-5">
   <div class="text-center mb-4">
-    <h2 class="fw-bold text-primary">
+    <h2 class="section-title text-primary">
       <i class="bi bi-star-fill text-warning me-2"></i> Comercios Destacados
     </h2>
-    <p class="text-muted mb-0">Algunos de nuestros favoritos de la semana</p>
-    
+    <p class="text-muted mb-0">Nuestros favoritos de la semana</p>
   </div>
 
-  <div class="carrusel1-container overflow-hidden position-relative">
-    <div class="carrusel1-track d-flex" id="featuredContainer">
-      <!-- Cards se cargan con JS -->
-    </div>
+  <div class="carrusel1-container">
+    <div class="carrusel1-track" id="featuredContainer"></div>
     <button class="carrusel1-btn prev btn btn-light position-absolute top-50 start-0 translate-middle-y">&#10094;</button>
     <button class="carrusel1-btn next btn btn-light position-absolute top-50 end-0 translate-middle-y">&#10095;</button>
   </div>
 </section>
-
-<style>
-  .carrusel1-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    overflow: hidden;
-    position: relative;
-  }
   
-  .carrusel1-track {
-    display: flex;
-    gap: 20px; /* más espacio entre tarjetas */
-    transition: transform 0.5s linear;
-  }
-  
-  .carrusel1-card {
-    flex: 0 0 33.3333%; /* siempre 3 visibles */
-    padding: 0 10px;
-    box-sizing: border-box;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-  }
-  
-  .carrusel1-card:hover,
-  .carrusel1-card:active {
-    transform: scale(1.15); /* agranda más para que se note */
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3); /* sombra más marcada */
-    z-index: 10; /* para que no quede debajo de otra card */
-  }
-  
-  .carrusel1-card img {
-    width: 100%;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
-  }
-  
-  .carrusel1-card:hover img,
-  .carrusel1-card:active img {
-    transform: scale(1.5); /* zoom visible de la imagen */
-  }
-  </style>
-  
-
-<script>
-  const FEATURED = [
-  {
-    nombre: "Panadería Aroma",
-    descripcion: "Panes y facturas frescas",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Panadería",
-    whatsapp: "2611122334",
-    direccion: "Calle Falsa 123, Maipú"
-  },
- 
-  {
-    nombre: "Café y Té Boutique",
-    descripcion: "Bebidas calientes y pastelería",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Café",
-    whatsapp: "2613344556",
-    direccion: "Boulevard Central 78, Maipú"
-  },
-  {
-    nombre: "Ferretería La Tuerca",
-    descripcion: "Todo para tu hogar",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Ferretería",
-    whatsapp: "2612233445",
-    direccion: "Avenida Principal 456, Maipú"
-  },
-  {
-    nombre: "Librería Los Sueños",
-    descripcion: "Libros, papelería y más",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Librería",
-    whatsapp: "2614455667",
-    direccion: "Calle Cultura 22, Maipú"
-  },
-  {
-    nombre: "Heladería Dulce Frío",
-    descripcion: "Helados artesanales y postres",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Heladería",
-    whatsapp: "2615566778",
-    direccion: "Avenida del Sol 11, Maipú"
-  },
-  {
-    nombre: "Panadería La Espiga",
-    descripcion: "Delicias recién horneadas",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Panadería",
-    whatsapp: "2616677889",
-    direccion: "Calle Trigo 34, Maipú"
-  },
-  {
-    nombre: "Frutería Natural",
-    descripcion: "Frutas frescas y jugos",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Frutería",
-    whatsapp: "2617788990",
-    direccion: "Mercado Central 56, Maipú"
-  },
-  {
-    nombre: "Mascotas Happy Pet",
-    descripcion: "Alimentos y accesorios",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Mascotas",
-    whatsapp: "2618899001",
-    direccion: "Calle Animal 90, Maipú"
-  },
-  {
-    nombre: "Panadería Aroma",
-    descripcion: "Panes y facturas frescas",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Panadería",
-    whatsapp: "2611122334",
-    direccion: "Calle Falsa 123, Maipú"
-  },
- 
-  {
-    nombre: "Café y Té Boutique",
-    descripcion: "Bebidas calientes y pastelería",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Café",
-    whatsapp: "2613344556",
-    direccion: "Boulevard Central 78, Maipú"
-  },
-  {
-    nombre: "Ferretería La Tuerca",
-    descripcion: "Todo para tu hogar",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Ferretería",
-    whatsapp: "2612233445",
-    direccion: "Avenida Principal 456, Maipú"
-  },
-  {
-    nombre: "Librería Los Sueños",
-    descripcion: "Libros, papelería y más",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Librería",
-    whatsapp: "2614455667",
-    direccion: "Calle Cultura 22, Maipú"
-  },
-  {
-    nombre: "Heladería Dulce Frío",
-    descripcion: "Helados artesanales y postres",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Heladería",
-    whatsapp: "2615566778",
-    direccion: "Avenida del Sol 11, Maipú"
-  },
-  {
-    nombre: "Panadería La Espiga",
-    descripcion: "Delicias recién horneadas",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Panadería",
-    whatsapp: "2616677889",
-    direccion: "Calle Trigo 34, Maipú"
-  },
-  {
-    nombre: "Frutería Natural",
-    descripcion: "Frutas frescas y jugos",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Frutería",
-    whatsapp: "2617788990",
-    direccion: "Mercado Central 56, Maipú"
-  },
-  {
-    nombre: "Mascotas Happy Pet",
-    descripcion: "Alimentos y accesorios",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Mascotas",
-    whatsapp: "2618899001",
-    direccion: "Calle Animal 90, Maipú"
-  },
-  {
-    nombre: "Panadería Aroma",
-    descripcion: "Panes y facturas frescas",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Panadería",
-    whatsapp: "2611122334",
-    direccion: "Calle Falsa 123, Maipú"
-  },
- 
-  {
-    nombre: "Café y Té Boutique",
-    descripcion: "Bebidas calientes y pastelería",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Café",
-    whatsapp: "2613344556",
-    direccion: "Boulevard Central 78, Maipú"
-  },
-  {
-    nombre: "Ferretería La Tuerca",
-    descripcion: "Todo para tu hogar",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Ferretería",
-    whatsapp: "2612233445",
-    direccion: "Avenida Principal 456, Maipú"
-  },
-  {
-    nombre: "Librería Los Sueños",
-    descripcion: "Libros, papelería y más",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Librería",
-    whatsapp: "2614455667",
-    direccion: "Calle Cultura 22, Maipú"
-  },
-  {
-    nombre: "Heladería Dulce Frío",
-    descripcion: "Helados artesanales y postres",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Heladería",
-    whatsapp: "2615566778",
-    direccion: "Avenida del Sol 11, Maipú"
-  },
-  {
-    nombre: "Panadería La Espiga",
-    descripcion: "Delicias recién horneadas",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Panadería",
-    whatsapp: "2616677889",
-    direccion: "Calle Trigo 34, Maipú"
-  },
-  {
-    nombre: "Frutería Natural",
-    descripcion: "Frutas frescas y jugos",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Frutería",
-    whatsapp: "2617788990",
-    direccion: "Mercado Central 56, Maipú"
-  },
-  {
-    nombre: "Mascotas Happy Pet",
-    descripcion: "Alimentos y accesorios",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Mascotas",
-    whatsapp: "2618899001",
-    direccion: "Calle Animal 90, Maipú"
-  }, {
-    nombre: "Panadería Aroma",
-    descripcion: "Panes y facturas frescas",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Panadería",
-    whatsapp: "2611122334",
-    direccion: "Calle Falsa 123, Maipú"
-  },
- 
-  {
-    nombre: "Café y Té Boutique",
-    descripcion: "Bebidas calientes y pastelería",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Café",
-    whatsapp: "2613344556",
-    direccion: "Boulevard Central 78, Maipú"
-  },
-  {
-    nombre: "Ferretería La Tuerca",
-    descripcion: "Todo para tu hogar",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Ferretería",
-    whatsapp: "2612233445",
-    direccion: "Avenida Principal 456, Maipú"
-  },
-  {
-    nombre: "Librería Los Sueños",
-    descripcion: "Libros, papelería y más",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Librería",
-    whatsapp: "2614455667",
-    direccion: "Calle Cultura 22, Maipú"
-  },
-  {
-    nombre: "Heladería Dulce Frío",
-    descripcion: "Helados artesanales y postres",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Heladería",
-    whatsapp: "2615566778",
-    direccion: "Avenida del Sol 11, Maipú"
-  },
-  {
-    nombre: "Panadería La Espiga",
-    descripcion: "Delicias recién horneadas",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Panadería",
-    whatsapp: "2616677889",
-    direccion: "Calle Trigo 34, Maipú"
-  },
-  {
-    nombre: "Frutería Natural",
-    descripcion: "Frutas frescas y jugos",
-    img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
-    rubro: "Frutería",
-    whatsapp: "2617788990",
-    direccion: "Mercado Central 56, Maipú"
-  },
-  {
-    nombre: "Mascotas Happy Pet",
-    descripcion: "Alimentos y accesorios",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    rubro: "Mascotas",
-    whatsapp: "2618899001",
-    direccion: "Calle Animal 90, Maipú"
-  }
-];
-
-
-const featuredContainer = document.getElementById("featuredContainer");
-
-// Función para crear card
-function destacadoCard({nombre, descripcion, img, whatsapp, direccion}) {
-  return `
-    <div class="carrusel1-card">
-      <div class="card card-hover h-100">
-        <img src="${img}" class="card-img-top" alt="${nombre}">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title fw-bold text-primary">${nombre}</h5>
-          <p class="card-text text-muted small">${descripcion||""}</p>
-          <div class="mt-auto">
-            <div class="d-flex align-items-start mb-3">
-              <i class="bi bi-geo-alt-fill text-danger me-2 mt-1"></i>
-              <div class="small">${direccion||"—"}</div>
-            </div>
-            <a href="https://wa.me/54${(whatsapp||"").replace(/\D/g,"")}" target="_blank" class="btn btn-success w-100 rounded-pill">
-              <i class="bi bi-whatsapp me-1"></i> Contactar
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// Render + duplicado para loop infinito
-function renderFeatured(){
-  featuredContainer.innerHTML = FEATURED.map(destacadoCard).join("");
-  FEATURED.forEach(f => featuredContainer.innerHTML += destacadoCard(f));
-}
-renderFeatured();
-
-let index = 0;
-const totalCards = FEATURED.length;
-
-// Función para mover carrusel (3 visibles)
-function moveCarousel(step = 1){
-  index += step;
-  if(index >= totalCards) index = 0;
-  if(index < 0) index = totalCards - 1;
-  featuredContainer.style.transform = `translateX(-${index * 33.3333}%)`;
-}
-
-// Botones
-document.querySelector(".carrusel1-btn.prev").addEventListener("click", ()=> moveCarousel(-1));
-document.querySelector(".carrusel1-btn.next").addEventListener("click", ()=> moveCarousel(1));
-
-// Loop automático
-setInterval(()=> moveCarousel(1), 3000);
-</script>
-
-
-
 <!-- ====================== TODOS LOS COMERCIOS ====================== -->
-<section class="container mt-5">
+<section class="container mt-5" id="comercios1">
   <div class="text-center mb-4">
-    <h2 class="fw-bold text-primary"><i class="bi bi-shop-window me-2"></i> Todos los Comercios</h2>
-    <p class="text-muted mb-0">Se actualiza en tiempo real a medida que se registran</p>
+    <h2 class="section-title text-primary">
+      <i class="bi bi-collection me-2"></i> Todos los Comercios
+    </h2>
   </div>
-  <div class="row g-3" id="comerciosContainer"></div>
+  <div class="d-flex flex-wrap" id="comerciosContainer"></div>
 </section>
+
+<!-- WHATSAPP -->
+<a class="whatsapp-fab" href="https://wa.me/542616246767" target="_blank"><i class="bi bi-whatsapp"></i></a>
+
+
 <!-- ====================== MODAL REGISTRO ====================== -->
 <div class="modal fade" id="modalRegistro" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -631,10 +391,13 @@ setInterval(()=> moveCarousel(1), 3000);
     </div>
   </div>
 </div>
-<!-- ====================== SECCIÓN BENEFICIOS DESTACADO ====================== -->
-<section class="container mt-5 py-5 ">
-  <div class="text-center mb-4">
-    <h2 class="fw-bold text-primary">
+
+<!-- ====================== SECCIÓN DESTACADO PROFESIONAL ====================== -->
+<section class="container my-3 py-3">
+
+  <!-- TÍTULO PRINCIPAL -->
+  <div class="text-center mb-5">
+    <h2 class="section-title fw-bold text-primary">
       <i class="bi bi-megaphone-fill me-2"></i> ¡Hacé crecer tu comercio!
     </h2>
     <p class="lead text-muted">
@@ -642,43 +405,146 @@ setInterval(()=> moveCarousel(1), 3000);
     </p>
   </div>
 
-  <div class="row g-4">
-    <div class="col-md-4 text-center">
-      <i class="bi bi-star-fill text-warning display-5"></i>
-      <h5 class="fw-bold mt-2">Mayor Visibilidad</h5>
-      <p class="small text-muted">
-        Tu comercio aparecerá en la sección especial de destacados en la parte superior.
-      </p>
+  <!-- TARJETAS DE BENEFICIOS -->
+  <div class="row g-4 text-center mb-5">
+    <div class="col-md-4" data-animate>
+      <div class="p-4 rounded-4 h-100 bg-gradient shadow-smooth" style="background: linear-gradient(145deg,#fff8e1,#ffe066);">
+        <i class="bi bi-star-fill text-warning display-4 mb-3"></i>
+        <h5 class="fw-bold">Mayor Visibilidad</h5>
+        <p class="small text-muted mt-2">
+          Tu comercio aparecerá en la sección especial de destacados en la parte superior.
+        </p>
+      </div>
     </div>
 
-    <div class="col-md-4 text-center">
-      <i class="bi bi-graph-up-arrow text-success display-5"></i>
-      <h5 class="fw-bold mt-2">Más Clientes</h5>
-      <p class="small text-muted">
-        Tus datos estarán siempre a un click en WhatsApp.
-      </p>
+    <div class="col-md-4" data-animate>
+      <div class="p-4 rounded-4 h-100 bg-gradient shadow-smooth" style="background: linear-gradient(145deg,#e6f7ff,#90e0ef);">
+        <i class="bi bi-graph-up-arrow text-success display-4 mb-3"></i>
+        <h5 class="fw-bold">Más Clientes</h5>
+        <p class="small text-muted mt-2">
+          Tus datos estarán siempre a un click en WhatsApp.
+        </p>
+      </div>
     </div>
 
-    <div class="col-md-4 text-center">
-      <i class="bi bi-heart-fill text-danger display-5"></i>
-      <h5 class="fw-bold mt-2">Impulso Local</h5>
-      <p class="small text-muted">
-        Apoyamos a los emprendedores de Mendoza para crecer juntos.
-      </p>
+    <div class="col-md-4" data-animate>
+      <div class="p-4 rounded-4 h-100 bg-gradient shadow-smooth" style="background: linear-gradient(145deg,#ffe6e6,#ff6b6b);">
+        <i class="bi bi-heart-fill text-danger display-4 mb-3"></i>
+        <h5 class="fw-bold">Impulso Local</h5>
+        <p class="small text-muted mt-2">
+          Apoyamos a los emprendedores de Mendoza para crecer juntos.
+        </p>
+      </div>
     </div>
   </div>
 
-  <div class="text-center mt-4">
-    <a class="btn btn-warning btn-lg rounded-pill fw-bold"
-       href="https://wa.me/542616246767?text=Hola!%20Quiero%20ser%20DESTACADO%20en%20la%20gu%C3%ADa."
-       target="_blank">
-      <i class="bi bi-star-fill me-1"></i> Quiero ser Destacado
-    </a>
+  <!-- FORMULARIO ABAJO -->
+  <div class="card shadow-smooth p-5 rounded-4 mb-5">
+    <h2 class="fw-bold text-primary mb-4 text-center">Quiero ser destacado</h2>
+    <form id="destacadoForm"> 
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="nombreComercio" class="form-label fw-bold">Nombre del Comercio</label>
+          <input type="text" class="form-control border-warning border-2 rounded-3" id="nombreComercio" required>
+        </div>
+        <div class="col-md-6">
+          <label for="direccionComercio" class="form-label fw-bold">Dirección</label>
+          <input type="text" class="form-control border-warning border-2 rounded-3" id="direccionComercio" required>
+        </div>
+        <div class="col-md-6">
+          <label for="telefonoComercio" class="form-label fw-bold">Teléfono</label>
+          <input type="tel" class="form-control border-warning border-2 rounded-3" id="telefonoComercio" placeholder="Ej: 2611234567" required>
+        </div>
+        <div class="col-md-6">
+          <label for="rubroComercio" class="form-label fw-bold">Rubro</label>
+          <input type="text" class="form-control border-warning border-2 rounded-3" id="rubroComercio" required>
+        </div>
+        <div class="col-12">
+          <label for="descripcionComercio" class="form-label fw-bold">Descripción</label>
+          <textarea class="form-control border-warning border-2 rounded-3" id="descripcionComercio" rows="3" required></textarea>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" id="btnEnviarDestacado" class="btn btn-warning btn-lg rounded-pill fw-bold d-flex align-items-center justify-content-center px-4 mx-auto">
+          <i class="bi bi-star-fill me-2"></i> Quiero ser Destacado
+        </button>
+      </div>
+    </form>
   </div>
+
 </section>
 
+<script>
+  const formDestacado = document.getElementById("destacadoForm");
+  
+  formDestacado.addEventListener("submit", function(e){
+    e.preventDefault();
+  
+    // Capturar valores
+    const nombre = document.getElementById("nombreComercio").value.trim();
+    const direccion = document.getElementById("direccionComercio").value.trim();
+    const telefono = document.getElementById("telefonoComercio").value.trim();
+    const rubro = document.getElementById("rubroComercio").value.trim();
+    const descripcion = document.getElementById("descripcionComercio").value.trim();
+  
+    // Validar que todos los campos estén completos
+    if (!nombre || !direccion || !telefono || !rubro || !descripcion) {
+      alert("Por favor completá todos los campos antes de enviar.");
+      return;
+    }
+  
+    // Mensaje completo con saludo y todos los datos
+    const mensaje = `Hola! Soy ${nombre} y quiero ser DESTACADO en la guía.%0A
+  Nombre: ${nombre}%0A
+  Dirección: ${direccion}%0A
+  Teléfono: ${telefono}%0A
+  Rubro: ${rubro}%0A
+  Descripción: ${descripcion}`;
+  
+    // Abrir WhatsApp con todos los datos
+    window.open(`https://wa.me/542616246767?text=${mensaje}`, '_blank');
+  
+    // Limpiar formulario después de enviar
+    formDestacado.reset();
+  });
+  </script>
+  
+  <style>
+  /* Efecto al ingresar en el input o textarea */
+  #destacadoForm input:focus,
+  #destacadoForm textarea:focus {
+    box-shadow: 0 0 12px rgba(255, 193, 7, 0.8);
+    border-color: #ffc107;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Opcional: animación suave de transición para todos los inputs */
+  #destacadoForm input,
+  #destacadoForm textarea {
+    transition: all 0.3s ease-in-out;
+  }
+  </style>
+  
+
+<style>
+/* Hover animado en tarjetas de beneficios */
+.bg-gradient {
+  transition: transform .3s, box-shadow .3s;
+  cursor: default;
+}
+.bg-gradient:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+
+</style>
+
+
+
 <!-- ====================== FOOTER ====================== -->
-<footer class="footer mt-5 pt-5 pb-4">
+<footer class="footer mt- pt-5 pb-4">
   <div class="container">
     <div class="row gy-4">
       <div class="col-md-4">
@@ -706,101 +572,141 @@ setInterval(()=> moveCarousel(1), 3000);
   </div>
 </footer>
 
-<!-- ====================== WHATSAPP GENERAL (FLOTANTE) ====================== -->
-<a class="whatsapp-fab" href="https://wa.me/542616246767" target="_blank" aria-label="WhatsApp general">
-  <i class="bi bi-whatsapp"></i>
-</a>
-
-<!-- ====================== LIBRERÍAS ====================== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- ====================== FIREBASE + APP ====================== -->
+<!-- FIREBASE -->
 <script type="module">
-  /* ---------------- Firebase (v12.1.0) ---------------- */
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-  import {
-    getFirestore, collection, addDoc, getDocs, onSnapshot, query, orderBy, serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-  // Config proporcionada por vos
-  const firebaseConfig = {
-    apiKey: "AIzaSyC6xVk-lhu3Tl0MysJHvmVA3wTZslLFeWY",
-    authDomain: "gestion-postulantes.firebaseapp.com",
-    projectId: "gestion-postulantes",
-    storageBucket: "gestion-postulantes.firebasestorage.app",
-    messagingSenderId: "316005992021",
-    appId: "1:316005992021:web:ba86c12b2ab189ac09b6dc"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyC6xVk-lhu3Tl0MysJHvmVA3wTZslLFeWY",
+  authDomain: "gestion-postulantes.firebaseapp.com",
+  projectId: "gestion-postulantes",
+  storageBucket: "gestion-postulantes.firebasestorage.app",
+  messagingSenderId: "316005992021",
+  appId: "1:316005992021:web:ba86c12b2ab189ac09b6dc"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+ /* ---------------- Utilidades UI ---------------- */
+ const comerciosContainer = document.getElementById("comerciosContainer");
 
-  /* ---------------- Utilidades UI ---------------- */
-  const comerciosContainer = document.getElementById("comerciosContainer");
-
-  const formRegistro = document.getElementById("formRegistro");
-  const searchInput = document.getElementById("searchInput");
-  const filterBtns = document.querySelectorAll(".filter-btn");
-
-  function avatarIniciales(nombre="C"){
-    const ini = nombre.trim().split(/\s+/).slice(0,2).map(w=>w[0]?.toUpperCase()||"").join("");
-    return `<div class="avatar flex-shrink-0">${ini || "C"}</div>`;
-  }
+const formRegistro = document.getElementById("formRegistro");
+const searchInput = document.getElementById("searchInput");
+const filterBtns = document.querySelectorAll(".filter-btn");
 
   function waLink(num){ // Opcional: ajustá prefijo país si necesitás distinto
     const limpio = (num||"").replace(/\D/g,"");
     return `https://wa.me/54${limpio}`;
   }
 
-  function comercioCard({nombre, direccion, whatsapp, rubro}){
-    return `
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hover h-100 p-3">
-          <div class="d-flex align-items-center gap-3">
-            ${avatarIniciales(nombre)}
-            <div class="flex-grow-1">
-              <h5 class="mb-0 fw-bold text-primary">${nombre}</h5>
-              <div class="small text-muted">${rubro||"Sin rubro"}</div>
-            </div>
-          </div>
-          <div class="mt-3">
-            <div class="d-flex align-items-start">
-              <i class="bi bi-geo-alt-fill text-danger me-2 mt-1"></i>
-              <div class="small">${direccion||"—"}</div>
-            </div>
-          </div>
-          <div class="mt-3">
-            <a class="btn btn-outline-success w-100 fw-semibold rounded-pill" target="_blank" href="${waLink(whatsapp)}">
-              <i class="bi bi-whatsapp me-1"></i> WhatsApp
-            </a>
-          </div>
-        </div>
-      </div>`;
-  }
+function avatarIniciales(nombre="C"){ return `<div class="avatar flex-shrink-0">${nombre.trim().split(/\s+/).slice(0,2).map(w=>w[0]?.toUpperCase()||"").join("") || "C"}</div>`; }
+// Seleccionamos todos los botones de filtro
+const filterButtons = document.querySelectorAll('.filter-btn');
 
-  function destacadoCard({nombre, descripcion, img, whatsapp, direccion}){
-    return `
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hover h-100">
-          <img src="${img}" class="card-img-top" alt="${nombre}">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title fw-bold text-primary">${nombre}</h5>
-            <p class="card-text text-muted small">${descripcion||""}</p>
-            <div class="mt-auto">
-              <div class="d-flex align-items-start mb-3">
-                <i class="bi bi-geo-alt-fill text-danger me-2 mt-1"></i>
-                <div class="small">${direccion||"—"}</div>
-              </div>
-              <a href="${waLink(whatsapp)}" target="_blank" class="btn btn-success w-100 rounded-pill">
-                <i class="bi bi-whatsapp me-1"></i> Contactar
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>`;
-  }
+// Título o sección de "Todos los Comercios"
+const todosComerciosTitle = document.querySelector('#comercios1'); // o cualquier id que tengas en el título
 
-  function renderFeatured(){
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Scroll suave hacia la sección/título
+    todosComerciosTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+function comercioCard({nombre,direccion,whatsapp,rubro}){
+  const iniciales = (nombre||"")
+    .trim()
+    .split(" ")
+    .map(p => p[0]?.toUpperCase())
+    .slice(0,2)
+    .join("");
+
+  return `<div class="col-comercio"><div class="card card-hover h-100 p-3">
+    <div class="d-flex align-items-center gap-3">
+      <div style="
+        width:45px;
+        height:45px;
+        border-radius:50%;
+        background-color:#0d6efd;
+        color:#fff;
+        font-weight:bold;
+        font-size:18px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border:2px solid #e0e0e0;
+        box-shadow:0 2px 6px rgba(0,0,0,0.1);
+      ">${iniciales}</div>
+      <div class="flex-grow-1">
+        <h6 class="mb-0 fw-bold text-primary">${nombre}</h6>
+        <small class="text-muted">${rubro||"Sin rubro"}</small>
+      </div>
+    </div>
+    <div class="mt-2 small d-flex align-items-start">
+      <i class="bi bi-geo-alt-fill text-danger me-2"></i>${direccion||"—"}
+    </div>
+    <div class="mt-3">
+      <a class="btn btn-outline-success w-100 rounded-pill fw-bold" target="_blank" href="https://wa.me/54${(whatsapp||"").replace(/\D/g,"")}">
+        <i class="bi bi-whatsapp me-1"></i> WhatsApp
+      </a>
+    </div>
+  </div></div>`;
+}
+
+
+// ==== DESTACADOS ====
+const FEATURED = [
+  { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+  { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+  { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
+  { nombre: "Verdulería El Sol", descripcion: "Frutas y verduras frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Verdulería", whatsapp: "2617788990", direccion: "Av. San Martín 222, Maipú" },
+  { nombre: "Indumentaria Style", descripcion: "Moda urbana y casual", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Indumentaria", whatsapp: "2616677889", direccion: "Calle Moda 456, Maipú" },
+  
+  { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+  { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+  { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
+  { nombre: "Verdulería El Sol", descripcion: "Frutas y verduras frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Verdulería", whatsapp: "2617788990", direccion: "Av. San Martín 222, Maipú" },
+  { nombre: "Indumentaria Style", descripcion: "Moda urbana y casual", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Indumentaria", whatsapp: "2616677889", direccion: "Calle Moda 456, Maipú" },
+  { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+  { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
+  { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
+  { nombre: "Verdulería El Sol", descripcion: "Frutas y verduras frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Verdulería", whatsapp: "2617788990", direccion: "Av. San Martín 222, Maipú" },
+  { nombre: "Indumentaria Style", descripcion: "Moda urbana y casual", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Indumentaria", whatsapp: "2616677889", direccion: "Calle Moda 456, Maipú" }
+];
+
+const featuredContainer = document.getElementById("featuredContainer");
+function destacadoCard({nombre, descripcion, img, whatsapp, direccion}) {
+  return `<div class="carrusel1-card"><div class="card card-hover h-100">
+    <img src="${img}" class="card-img-top" alt="${nombre}">
+    <div class="card-body d-flex flex-column">
+      <h6 class="fw-bold text-primary">${nombre}</h6>
+      <p class="text-muted small">${descripcion||""}</p>
+      <div class="mt-auto small d-flex align-items-start mb-2"><i class="bi bi-geo-alt-fill text-danger me-2"></i>${direccion||"—"}</div>
+      <a href="https://wa.me/54${(whatsapp||"").replace(/\D/g,"")}" target="_blank" class="btn btn-success w-100 rounded-pill"><i class="bi bi-whatsapp me-1"></i> Contactar</a>
+    </div>
+  </div></div>`;
+}
+featuredContainer.innerHTML = FEATURED.map(destacadoCard).join("");
+let index = 0;
+function moveCarousel(step){
+  const total = FEATURED.length;
+  index = (index + step + total) % total;
+  featuredContainer.style.transform = `translateX(-${index*20}%)`;
+}
+document.querySelector(".carrusel1-btn.prev").addEventListener("click", ()=> moveCarousel(-1));
+document.querySelector(".carrusel1-btn.next").addEventListener("click", ()=> moveCarousel(1));
+setInterval(()=> moveCarousel(1), 4000);
+
+// Animaciones on scroll
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("visible"); });
+},{threshold:.2});
+document.querySelectorAll("[data-animate]").forEach(el=>observer.observe(el));
+
+function renderFeatured(){
     featuredContainer.innerHTML = FEATURED.map(destacadoCard).join("");
   }
 
@@ -906,3 +812,8 @@ setInterval(()=> moveCarousel(1), 3000);
 
 </body>
 </html>
+
+</script>
+</body>
+</html>
+
