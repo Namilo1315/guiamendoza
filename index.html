@@ -529,6 +529,7 @@
 
 
 </section>
+ 
 
 <script>
   const formDestacado = document.getElementById("destacadoForm");
@@ -603,22 +604,22 @@
   <div class="container">
     <div class="row gy-4">
       <div class="col-md-4">
-        <h5 class="text-white fw-bold">Comercios Maipú</h5>
+        <h5 class="text-white fw-bold">Comercios Mendoza</h5>
         <p class="text-secondary mb-0">Conectamos personas con negocios locales. Crecemos con vos.</p>
       </div>
       <div class="col-md-4">
         <h6 class="text-white fw-bold mb-2">Contacto</h6>
-        <p class="mb-1"><i class="bi bi-geo-alt-fill me-2"></i>Cuidad, Mendoza</p>
-        <p class="mb-1"><i class="bi bi-envelope me-2"></i>contacto@comerciosmaipu.com</p>
+        <p class="mb-1"><i class="bi bi-geo-alt-fill me-2"></i>Espejo 836, Las Heras, Mendoza</p>
+        <p class="mb-1"><i class="bi bi-envelope me-2"></i>publicacionesmp@gmail.com</p>
         <p class="mb-0"><i class="bi bi-telephone me-2"></i>+54 261 5676784</p>
       </div>
       <div class="col-md-4">
         <h6 class="text-white fw-bold mb-2">Seguinos</h6>
         <div class="d-flex gap-2">
           <a class="btn btn-outline-success btn-sm" target="_blank" href="https://wa.me/542615676784"><i class="bi bi-whatsapp"></i></a>
-          <a class="btn btn-outline-primary btn-sm" href="#"><i class="bi bi-facebook"></i></a>
-          <a class="btn btn-outline-danger btn-sm" href="#"><i class="bi bi-instagram"></i></a>
-          <a class="btn btn-outline-info btn-sm" href="#"><i class="bi bi-twitter-x"></i></a>
+          <a class="btn btn-outline-primary btn-sm" target="_blank" href="https://www.facebook.com/share/1A2AWG7MdM/"><i class="bi bi-facebook"></i></a>
+          <a class="btn btn-outline-danger btn-sm" target="_blank" href="https://www.instagram.com/comercial_las_heras?igsh=MTFsNm5tMWdiaHZkbw=="><i class="bi bi-instagram"></i></a>
+         
         </div>
       </div>
     </div>
@@ -920,8 +921,8 @@ formRegistro.addEventListener('submit', async (event) => {
     });
   }
   
-  /* ---------------- Función eliminar comercio ---------------- */
-  let comercioAEliminar = null;
+/* ---------------- Función eliminar comercio ---------------- */
+let comercioAEliminar = null;
 
 window.eliminarComercio = function(id){
   comercioAEliminar = id;
@@ -931,6 +932,14 @@ window.eliminarComercio = function(id){
 
 document.getElementById('btnConfirmEliminar').addEventListener('click', async ()=>{
   if(!comercioAEliminar) return;
+
+  // 🔑 Pedir clave antes de eliminar
+  const clave = prompt("Ingrese la clave para eliminar este comercio:");
+  if(clave !== "mono123"){ 
+    alert("Clave incorrecta. No se eliminó el comercio.");
+    return;
+  }
+
   try{
     await deleteDoc(doc(db,"comercios",comercioAEliminar));
     const elem = document.getElementById(`comercio-${comercioAEliminar}`);
@@ -942,6 +951,7 @@ document.getElementById('btnConfirmEliminar').addEventListener('click', async ()
     console.error(e);
   }
 });
+
 
   /* ---------------- Semilla inicial ---------------- */
   async function seedSiVacio(){
