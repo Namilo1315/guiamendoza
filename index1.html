@@ -651,7 +651,7 @@ window.open(`https://wa.me/5492615676784?text=${mensaje}`, '_blank');
     </div>
   </div>
 </div>
-
+ <img src="img/maquina.jpeg" alt="">
 <!-- Contenedor para alertas -->
 <div id="alertContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 1055;"></div>
 
@@ -764,37 +764,26 @@ searchInput.addEventListener("input", () => {
   }
 });
 
-
   // ==== DESTACADOS ====
   const FEATURED = [
-    { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp" },
+    { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "img/maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp" },
+    { nombre: "Mueblería Martina ", descripcion: "Compra venta de productos nuevos y usados", img: "img/martina.jpeg", rubro: "Articulos", whatsapp: "2615103581", direccion: "San Miguel 774, Las Heras" },
     { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
     { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
     { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "img/maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp" },
+    { nombre: "Mueblería Martina ", descripcion: "Compra venta de productos nuevos y usados", img: "img/martina.jpeg", rubro: "Articulos", whatsapp: "2615103581", direccion: "San Miguel 774, Las Heras" },
     { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
     { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
-    { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp"  },
     { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
+    { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "img/maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp" },
+    { nombre: "Mueblería Martina ", descripcion: "Compra venta de productos nuevos y usados", img: "img/martina.jpeg", rubro: "Articulos", whatsapp: "2615103581", direccion: "San Miguel 774, Las Heras" },
     { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
     { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },
-    { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp"  },
     { nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
-    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
-    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },{ nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
-    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
-    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },{ nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
-    { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp"  },
-    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
-    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },{ nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
-    { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp"  },
-    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
-    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },{ nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
-    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
-    { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp"  },
-    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" },{ nombre: "Panadería Aroma", descripcion: "Panes y facturas frescas", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop", rubro: "Panadería", whatsapp: "2611122334", direccion: "Calle Falsa 123, Maipú" },
-    { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp"  },
-    { nombre: "Café y Té Boutique", descripcion: "Bebidas calientes y pastelería", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop", rubro: "Café", whatsapp: "2613344556", direccion: "Boulevard Central 78, Maipú" },
-    { nombre: "Ferretería La Tuerca", descripcion: "Todo para tu hogar", img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=400&h=400&fit=crop", rubro: "Ferretería", whatsapp: "2612233445", direccion: "Avenida Principal 456, Maipú" }
+    { nombre: "Mueblería Martina ", descripcion: "Compra venta de productos nuevos y usados", img: "img/martina.jpeg", rubro: "Articulos", whatsapp: "2615103581", direccion: "San Miguel 774, Las Heras" },
+    
+   
   ];
   
   const featuredContainer = document.getElementById("featuredContainer");
