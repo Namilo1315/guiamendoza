@@ -185,7 +185,64 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.promo-belt{
+  --gap: 18px;
+  --item-radius: 16px;
+  --item-height: 150px;            /* altura desktop */
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 16px;
+}
 
+.promo-track{
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  /* El ancho será el de sus hijos duplicados; la animación hace el loop */
+}
+
+.promo-item{
+  flex: 0 0 calc((100% - 2*var(--gap)) / 3);  /* 3 visibles */
+  height: var(--item-height);
+  object-fit: cover;
+  width: 100%;
+  border-radius: var(--item-radius);
+  box-shadow: 0 12px 24px rgba(255, 255, 255, 0.15);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.promo-item:hover{
+  transform: scale(1.03);
+  box-shadow: 0 16px 32px rgba(0,0,0,.22);
+}
+
+/* Animaciones opuestas */
+@keyframes scroll-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - var(--gap))); } /* recorre la mitad (porque duplicamos) */
+}
+@keyframes scroll-right {
+  0%   { transform: translateX(calc(-50% - var(--gap))); }
+  100% { transform: translateX(0); }
+}
+
+/* Velocidad y pausa al hover */
+.belt-left  .promo-track{ animation: scroll-left 18s linear infinite; }
+.belt-right .promo-track{ animation: scroll-right 18s linear infinite; }
+
+.promo-belt:hover .promo-track{
+  animation-play-state: paused;
+}
+
+/* ======= Responsivo ======= */
+@media (max-width: 992px){
+  .promo-item{ flex: 0 0 calc((100% - var(--gap)) / 2);  /* 2 visibles */ }
+  .promo-belt{ --item-height: 200px; }
+}
+@media (max-width: 576px){
+  .promo-item{ flex: 0 0 85%; }  /* 1 a la vista con “sneak peek” del siguiente */
+  .promo-belt{ --item-height: 160px; }
+}
 
   </style>
 </head>
@@ -257,29 +314,37 @@
 
 
 <!-- ====================== CARRUSEL PROMOS ====================== -->
-<div id="heroCarousel" class="carousel slide my-4 container" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active"><img class="d-block w-100" alt="Promo 1"
-      src="baner.png"></div>
-    <div class="carousel-item"><img class="d-block w-100" alt="Promo 2"
-      src="baner2.jpeg"></div>
-    <div class="carousel-item"><img class="d-block w-100" alt="Promo 3"
-      src="baner1.jpeg"></div>
-      <div class="carousel-item"><img class="d-block w-100" alt="Promo 3"
-      src="baner3.jpeg"></div>
-      <div class="carousel-item"><img class="d-block w-100" alt="Promo 3"
-      src="baner4.jpeg"></div>
-      <div class="carousel-item"><img class="d-block w-100" alt="Promo 3"
-      src="baner5.jpeg"></div>
-      
+<!-- ====================== CARRUSEL PROMOS (DOBLE, OPUESTOS) ====================== -->
+<section class="container my-4">
+  <!-- FILA 1: desplaza a la izquierda -->
+  <div class="promo-belt belt-left mb-3" aria-label="Promos 1">
+    <div class="promo-track">
+      <!-- Duplica el set para loop contínuo -->
+      <img src="baner.png"   alt="Promo 1"  class="promo-item">
+      <img src="baner2.jpeg" alt="Promo 2"  class="promo-item">
+      <img src="baner1.jpeg" alt="Promo 3"  class="promo-item">
+      <!-- duplicado -->
+      <img src="baner.png"   alt="Promo 1"  class="promo-item">
+      <img src="baner2.jpeg" alt="Promo 2"  class="promo-item">
+      <img src="baner1.jpeg" alt="Promo 3"  class="promo-item">
+    </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Anterior</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Siguiente</span>
-  </button>
-</div>
+
+  <!-- FILA 2: desplaza a la derecha -->
+  <div class="promo-belt belt-right" aria-label="Promos 2">
+    <div class="promo-track">
+      <!-- Duplica el set para loop contínuo -->
+      <img src="baner3.jpeg" alt="Promo 4" class="promo-item">
+      <img src="baner4.jpeg" alt="Promo 5" class="promo-item">
+      <img src="baner5.jpeg" alt="Promo 6" class="promo-item">
+      <!-- duplicado -->
+      <img src="baner3.jpeg" alt="Promo 4" class="promo-item">
+      <img src="baner4.jpeg" alt="Promo 5" class="promo-item">
+      <img src="baner5.jpeg" alt="Promo 6" class="promo-item">
+    </div>
+  </div>
+</section>
+
 <!-- ====================== DESTACADOS ====================== -->
 <section class="container mt-5">
   <div class="text-center mb-4">
@@ -528,6 +593,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- ====================== SECCIÓN DESTACADO PROFESIONAL ====================== -->
 <section class="container my-3 py-3">
@@ -878,30 +944,32 @@ searchInput.addEventListener("input", () => {
       { nombre: "Renna y Asociados", descripcion: "Estudio Jurídico", img: "img/renna.jpg", rubro: "profesionales", whatsapp: "2615177979", direccion: "Necochea 993 San Jose Guaymallen." },
       { nombre: "Renault F1", descripcion: "Todo para tu Renault en Mendoza", img: "img/repuestosf1.jpeg", rubro: "profesionales", whatsapp: "2617071032", direccion: "Adolfo Calle 106 5519, Dorrego." },
     { nombre: "Mariela Durán", descripcion: "Profesora: Matemática, SIC e Inglés. Primaria y Secundario", img: "img/dm.jpeg", rubro: "profesionales", whatsapp: "2615350068", direccion: "Roca y San Miguel, Las Heras." },
-      { nombre: "Barbershop", descripcion: "Barbería", img: "img/barbero.jpeg", rubro: "Servicios", whatsapp: "2612075413", direccion: "Jose Maria Godoy y Saenz Peña." },
+      { nombre: "Mariela Durán", descripcion: "Profesora: Matemática, SIC e Inglés. Primaria y Secundario", img: "img/inyectab.jpeg", rubro: "profesionales", whatsapp: "2615350068", direccion: "Roca y San Miguel, Las Heras." },
+      
+      
+     { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "img/maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp" },
+    { nombre: "Mueblería Martina ", descripcion: "Compra venta de productos nuevos y usados", img: "img/martina.jpeg", rubro: "Articulos", whatsapp: "2615103581", direccion: "San Miguel 774, Las Heras." },
+    { nombre: "Monteleone Polarizados", descripcion: "Polarizados - Láminas de primera marca.", img: "img/monteleone.png", rubro: "Vidriería", whatsapp: "2616516799", direccion: "Ejército de los Andes 632, Dorrego." },
+     { nombre: "ALUCUYO", descripcion: "Carpintería de Aluminio y Cristales", img: "img/alucuyo.jpeg", rubro: "Carpintería", whatsapp: "2615155757", direccion: "Dorrego 757, Las Heras." },
+      { nombre: "Renna y Asociados", descripcion: "Estudio Jurídico", img: "img/renna.jpg", rubro: "profesionales", whatsapp: "2615177979", direccion: "Necochea 993 San Jose Guaymallen." },
+      { nombre: "Renault F1", descripcion: "Todo para tu Renault en Mendoza", img: "img/repuestosf1.jpeg", rubro: "profesionales", whatsapp: "2617071032", direccion: "Adolfo Calle 106 5519, Dorrego." },
+    { nombre: "Mariela Durán", descripcion: "Profesora: Matemática, SIC e Inglés. Primaria y Secundario", img: "img/dm.jpeg", rubro: "profesionales", whatsapp: "2615350068", direccion: "Roca y San Miguel, Las Heras." },
+     { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "img/maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp" },
+    { nombre: "Mueblería Martina ", descripcion: "Compra venta de productos nuevos y usados", img: "img/martina.jpeg", rubro: "Articulos", whatsapp: "2615103581", direccion: "San Miguel 774, Las Heras." },
+    { nombre: "Monteleone Polarizados", descripcion: "Polarizados - Láminas de primera marca.", img: "img/monteleone.png", rubro: "Vidriería", whatsapp: "2616516799", direccion: "Ejército de los Andes 632, Dorrego." },
+     { nombre: "ALUCUYO", descripcion: "Carpintería de Aluminio y Cristales", img: "img/alucuyo.jpeg", rubro: "Carpintería", whatsapp: "2615155757", direccion: "Dorrego 757, Las Heras." },
+      { nombre: "Renna y Asociados", descripcion: "Estudio Jurídico", img: "img/renna.jpg", rubro: "profesionales", whatsapp: "2615177979", direccion: "Necochea 993 San Jose Guaymallen." },
+      { nombre: "Renault F1", descripcion: "Todo para tu Renault en Mendoza", img: "img/repuestosf1.jpeg", rubro: "profesionales", whatsapp: "2617071032", direccion: "Adolfo Calle 106 5519, Dorrego." },
+    { nombre: "Mariela Durán", descripcion: "Profesora: Matemática, SIC e Inglés. Primaria y Secundario", img: "img/dm.jpeg", rubro: "profesionales", whatsapp: "2615350068", direccion: "Roca y San Miguel, Las Heras." },
+     { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "img/maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp" },
+    { nombre: "Mueblería Martina ", descripcion: "Compra venta de productos nuevos y usados", img: "img/martina.jpeg", rubro: "Articulos", whatsapp: "2615103581", direccion: "San Miguel 774, Las Heras." },
+    { nombre: "Monteleone Polarizados", descripcion: "Polarizados - Láminas de primera marca.", img: "img/monteleone.png", rubro: "Vidriería", whatsapp: "2616516799", direccion: "Ejército de los Andes 632, Dorrego." },
+     { nombre: "ALUCUYO", descripcion: "Carpintería de Aluminio y Cristales", img: "img/alucuyo.jpeg", rubro: "Carpintería", whatsapp: "2615155757", direccion: "Dorrego 757, Las Heras." },
+      { nombre: "Renna y Asociados", descripcion: "Estudio Jurídico", img: "img/renna.jpg", rubro: "profesionales", whatsapp: "2615177979", direccion: "Necochea 993 San Jose Guaymallen." },
+      { nombre: "Renault F1", descripcion: "Todo para tu Renault en Mendoza", img: "img/repuestosf1.jpeg", rubro: "profesionales", whatsapp: "2617071032", direccion: "Adolfo Calle 106 5519, Dorrego." },
+    { nombre: "Mariela Durán", descripcion: "Profesora: Matemática, SIC e Inglés. Primaria y Secundario", img: "img/dm.jpeg", rubro: "profesionales", whatsapp: "2615350068", direccion: "Roca y San Miguel, Las Heras." },
 
-        { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "img/maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp" },
-    { nombre: "Mueblería Martina ", descripcion: "Compra venta de productos nuevos y usados", img: "img/martina.jpeg", rubro: "Articulos", whatsapp: "2615103581", direccion: "San Miguel 774, Las Heras." },
-    { nombre: "Monteleone Polarizados", descripcion: "Polarizados - Láminas de primera marca.", img: "img/monteleone.png", rubro: "Vidriería", whatsapp: "2616516799", direccion: "Ejército de los Andes 632, Dorrego." },
-     { nombre: "ALUCUYO", descripcion: "Carpintería de Aluminio y Cristales", img: "img/alucuyo.jpeg", rubro: "Carpintería", whatsapp: "2615155757", direccion: "Dorrego 757, Las Heras." },
-      { nombre: "Renna y Asociados", descripcion: "Estudio Jurídico", img: "img/renna.jpg", rubro: "profesionales", whatsapp: "2615177979", direccion: "Necochea 993 San Jose Guaymallen." },
-      { nombre: "Renault F1", descripcion: "Todo para tu Renault en Mendoza", img: "img/repuestosf1.jpeg", rubro: "profesionales", whatsapp: "2617071032", direccion: "Adolfo Calle 106 5519, Dorrego." },
-    { nombre: "Mariela Durán", descripcion: "Profesora: Matemática, SIC e Inglés. Primaria y Secundario", img: "img/dm.jpeg", rubro: "profesionales", whatsapp: "2615350068", direccion: "Roca y San Miguel, Las Heras." },
-      { nombre: "Barbershop", descripcion: "Barbería", img: "img/barbero.jpeg", rubro: "Servicios", whatsapp: "2612075413", direccion: "Jose Maria Godoy y Saenz Peña." },  { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "img/maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp" },
-    { nombre: "Mueblería Martina ", descripcion: "Compra venta de productos nuevos y usados", img: "img/martina.jpeg", rubro: "Articulos", whatsapp: "2615103581", direccion: "San Miguel 774, Las Heras." },
-    { nombre: "Monteleone Polarizados", descripcion: "Polarizados - Láminas de primera marca.", img: "img/monteleone.png", rubro: "Vidriería", whatsapp: "2616516799", direccion: "Ejército de los Andes 632, Dorrego." },
-     { nombre: "ALUCUYO", descripcion: "Carpintería de Aluminio y Cristales", img: "img/alucuyo.jpeg", rubro: "Carpintería", whatsapp: "2615155757", direccion: "Dorrego 757, Las Heras." },
-      { nombre: "Renna y Asociados", descripcion: "Estudio Jurídico", img: "img/renna.jpg", rubro: "profesionales", whatsapp: "2615177979", direccion: "Necochea 993 San Jose Guaymallen." },
-      { nombre: "Renault F1", descripcion: "Todo para tu Renault en Mendoza", img: "img/repuestosf1.jpeg", rubro: "profesionales", whatsapp: "2617071032", direccion: "Adolfo Calle 106 5519, Dorrego." },
-    { nombre: "Mariela Durán", descripcion: "Profesora: Matemática, SIC e Inglés. Primaria y Secundario", img: "img/dm.jpeg", rubro: "profesionales", whatsapp: "2615350068", direccion: "Roca y San Miguel, Las Heras." },
-      { nombre: "Barbershop", descripcion: "Barbería", img: "img/barbero.jpeg", rubro: "Servicios", whatsapp: "2612075413", direccion: "Jose Maria Godoy y Saenz Peña." },  { nombre: "Grupo Borgna ", descripcion: "Máquinas electricas e inalámbricas EINHELL ", img: "img/maquina.jpeg", rubro: "Ferreteria", whatsapp: "2612507515", direccion: "Ventas Online - whatsapp" },
-    { nombre: "Mueblería Martina ", descripcion: "Compra venta de productos nuevos y usados", img: "img/martina.jpeg", rubro: "Articulos", whatsapp: "2615103581", direccion: "San Miguel 774, Las Heras." },
-    { nombre: "Monteleone Polarizados", descripcion: "Polarizados - Láminas de primera marca.", img: "img/monteleone.png", rubro: "Vidriería", whatsapp: "2616516799", direccion: "Ejército de los Andes 632, Dorrego." },
-     { nombre: "ALUCUYO", descripcion: "Carpintería de Aluminio y Cristales", img: "img/alucuyo.jpeg", rubro: "Carpintería", whatsapp: "2615155757", direccion: "Dorrego 757, Las Heras." },
-      { nombre: "Renna y Asociados", descripcion: "Estudio Jurídico", img: "img/renna.jpg", rubro: "profesionales", whatsapp: "2615177979", direccion: "Necochea 993 San Jose Guaymallen." },
-      { nombre: "Renault F1", descripcion: "Todo para tu Renault en Mendoza", img: "img/repuestosf1.jpeg", rubro: "profesionales", whatsapp: "2617071032", direccion: "Adolfo Calle 106 5519, Dorrego." },
-    { nombre: "Mariela Durán", descripcion: "Profesora: Matemática, SIC e Inglés. Primaria y Secundario", img: "img/dm.jpeg", rubro: "profesionales", whatsapp: "2615350068", direccion: "Roca y San Miguel, Las Heras." },
-      { nombre: "Barbershop", descripcion: "Barbería", img: "img/barbero.jpeg", rubro: "Servicios", whatsapp: "2612075413", direccion: "Jose Maria Godoy y Saenz Peña." },
+
   ];
   
   const featuredContainer = document.getElementById("featuredContainer");
