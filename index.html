@@ -575,6 +575,7 @@
       box-shadow:0 16px 34px rgba(55,90,120,.10);
       backdrop-filter:blur(6px);
     }
+
     .featured-form-band .form-label{font-size:.86rem;font-weight:800;color:#314054}
     .featured-form-band .form-control{
       min-height:50px;
@@ -695,28 +696,114 @@
     }
 
     @media (max-width:575.98px){
-      .container-wide{width:calc(100% - 20px)}
-      .hero{padding:24px 0 28px}
-      .hero-copy{font-size:.98rem}
-      .hero-actions{display:grid;grid-template-columns:1fr}
-      .hero-actions .btn-main,.hero-actions .btn-ghost{width:100%}
-      #heroCarousel .carousel-item img{height:185px}
-      .featured-card{flex-basis:84%}
-      #comerciosContainer{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-      .commerce-card{min-height:146px;padding:8px 8px 0;border-radius:14px}
-      .commerce-avatar{flex-basis:32px;width:32px;height:32px;font-size:.64rem}
-      .commerce-name{font-size:.74rem}
-      .commerce-category{font-size:.61rem}
-      .commerce-address{margin:7px 0 6px;font-size:.63rem}
-      .commerce-actions{margin-left:-8px;margin-right:-8px}
-      .commerce-card .btn-whatsapp{min-height:30px;border-radius:0 0 13px 13px;font-size:.68rem;padding:4px}
-      .featured-form-band{padding:34px 0}
-      .featured-form-band form{padding:16px 13px}
-      .whatsapp-fab{right:14px;bottom:14px;width:54px;height:54px}
-      .featured-image-wrap{
-  height:220px;
+
+.container-wide{
+  width:calc(100% - 20px);
 }
-    }
+
+.hero{
+  padding:24px 0 28px;
+}
+
+.hero-copy{
+  font-size:.98rem;
+}
+
+.hero-actions{
+  display:grid;
+  grid-template-columns:1fr;
+}
+
+.hero-actions .btn-main,
+.hero-actions .btn-ghost{
+  width:100%;
+}
+
+#heroCarousel .carousel-item img{
+  height:185px;
+}
+
+.featured-card{
+  flex-basis:84%;
+}
+
+#comerciosContainer{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+
+.commerce-card{
+  min-height:146px;
+  padding:8px 8px 0;
+  border-radius:14px;
+}
+
+.commerce-avatar{
+  flex-basis:32px;
+  width:32px;
+  height:32px;
+  font-size:.64rem;
+}
+
+.commerce-name{
+  font-size:.74rem;
+}
+
+.commerce-category{
+  font-size:.61rem;
+}
+
+.commerce-address{
+  margin:7px 0 6px;
+  font-size:.63rem;
+}
+
+.commerce-actions{
+  margin-left:-8px;
+  margin-right:-8px;
+}
+
+.commerce-card .btn-whatsapp{
+  min-height:30px;
+  border-radius:0 0 13px 13px;
+  font-size:.68rem;
+  padding:4px;
+}
+
+.featured-form-band{
+  padding:34px 0;
+}
+
+.featured-form-band form{
+  padding:16px 13px;
+}
+
+.whatsapp-fab{
+  right:14px;
+  bottom:14px;
+  width:54px;
+  height:54px;
+}
+
+/* FOTO DE LOS DESTACADOS */
+.featured-image-wrap{
+  height:300px;
+}
+
+/* FOTO DENTRO DEL MODAL */
+#modalDetalle .modal-image-wrap{
+  height:250px;
+  aspect-ratio:auto;
+}
+
+#modalDetalle .modal-image-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+}
+    
 
     @media (prefers-reduced-motion:reduce){
       *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
